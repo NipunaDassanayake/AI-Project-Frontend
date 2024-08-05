@@ -1,4 +1,4 @@
-import { Button } from "./components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Accordion,
   AccordionContent,
@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-function App() {
+function HomePage() {
  
 
   return (
@@ -27,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export default HomePage
