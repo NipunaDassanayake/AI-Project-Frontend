@@ -1,28 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ToastAction } from "@/components/ui/toast"
-import { useToast } from "@/components/ui/use-toast"; // Import the useToast hook
+import { useState } from "react";
 
 function ProfilePage() {
-  const { toast } = useToast(); // Destructure the toast function
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+  const decrement = () => {
+    setCount(count - 1);
+  };
 
   return (
     <main className="p-4">
       <Progress value={70} />
-      
-      <Button
-      variant="outline"
-      onClick={() => {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-      }}
-    >
-      Show Toast
-    </Button>
+      <br />
+      <div className="flex justify-center  ">
+        <Button className="text-black">Edit Profile</Button>
+      </div>
+
+      <h3 className="title">My Counter</h3>
+      <p>The Count is {count}</p>
+      <Button onClick={increment}>+</Button>
+      <Button onClick={decrement}>-</Button>
     </main>
   );
 }

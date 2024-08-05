@@ -1,30 +1,20 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import Hero from "./components/Hero";
+import JobSection from "./components/JobSection";
 
 function HomePage() {
- 
-
   return (
-    <main className="p-4">
-      <Button>Click Me</Button>
-
-      <Accordion type="single" collapsible>
-  <AccordionItem value="item-1">
-    <AccordionTrigger>Is it accessible?</AccordionTrigger>
-    <AccordionContent>
-      Yes. It adheres to the WAI-ARIA design pattern.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-      
-    </main>
-  )
+    <div>
+      <Hero />
+      <JobSection />
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;
