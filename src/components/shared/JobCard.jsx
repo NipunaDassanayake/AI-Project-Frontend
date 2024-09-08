@@ -1,4 +1,4 @@
-import {
+ import {
   Card,
   CardContent,
   CardHeader,
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 function JobCard(props) {
   return (
-    <Link to={"/job/123"} className="block">
+    <Link to={`/job/${props._id}`} className="block">
       <Card className="text-black bg-yellow-400 border-black border-2">
         <CardHeader>
           <CardTitle>{props.title}</CardTitle>
