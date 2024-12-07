@@ -1,19 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import HomePage from "./pages/home/home.page.jsx";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import JobPage from "./pages/job/job.page.jsx";
-import RootLayout from "./layouts/root.layout.jsx";
-import SignInPage from "./pages/sign.in.page.jsx";
-import SignUpPage from "./pages/sign.up.page.jsx";
-import MainLayout from "./layouts/main.layout.jsx";
+import "./index.css";
+import HomePage from "./pages/home/home.page.jsx";
+import JobPage from "./pages/job/job.page";
+
+import RootLayout from "./layouts/root.layout";
+import SignInPage from "./pages/sign.in.page";
+import SignUpPage from "./pages/sign.up.page";
+import MainLayout from "./layouts/main.layout";
+import AdminMainLayout from "./layouts/admin.layout";
+import AdminJobPostsPage from "./pages/admin/jobPosts/admin-job-posts.page";
+import AdminJobCreatePage from "./pages/admin/createJob/job-create.page";
+import AdminJobPage from "./pages/admin/job/admin-job.page";
+import AdminJobApplicationPage from "./pages/admin/jobApplication/admin-job-application.page";
 import { ClerkProvider } from "@clerk/clerk-react";
-import AdminMainLayout from "./layouts/admin.layout.jsx";
-import AdminJobPostsPage from "./pages/admin/jobPosts/admin-job-posts.page.jsx";
-import AdminJobCreatePage from "./pages/admin/createJob/job-create.page.jsx";
-import AdminJobPage from "./pages/admin/job/admin-job.page.jsx";
-import AdminJobApplicationPage from "./pages/admin/jobApplication/admin-job-application.page.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <RouterProvider router={router} />
     </ClerkProvider>
   </React.StrictMode>

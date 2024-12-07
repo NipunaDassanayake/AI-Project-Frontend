@@ -9,9 +9,7 @@ import JobApplicationCard from "./components/JobApplicationCard";
 function AdminJobPage() {
   const [job, setJob] = useState(null);
   const [isJobLoading, setIsJobLoading] = useState(true);
-  const [jobApplications, setJobApplications] = useState(
-    []
-  );
+  const [jobApplications, setJobApplications] = useState([]);
   const [isJobApplicationsLoading, setIsJobApplicationsLoading] =
     useState(true);
   const { id } = useParams();

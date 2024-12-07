@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function AdminJobApplicationPage() {
-  const [jobApplication, setJobApplication] = useState(
-    null
-  );
+  const [jobApplication, setJobApplication] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const { applicationId } = useParams();

@@ -1,64 +1,51 @@
 import JobCard from "@/components/shared/JobCard";
+import { getJobs } from "@/lib/services/api/jobs";
 import { useEffect, useState } from "react";
-
-const getJobs = async () => {
-  const res = await fetch("http://localhost:8000/jobs", {
-    method: "GET",
-  });
-  const jobs = await res.json();
-  return jobs;
-};
 
 function JobSection() {
   const [jobs, setJobs] = useState([]);
-  const [isJobLoading, setIsJobLoading] = useState(false);
-  const [isJobError, setIsJobError] = useState(false);
+  const [isJobsLoading, setIsJobsLoading] = useState(false);
+  const [isJobsError, setIsJobsError] = useState(false);
 
   useEffect(() => {
-    setIsJobLoading(true);
+    setIsJobsLoading(true);
     getJobs()
-      .then((jobs) => {
-        setJobs(jobs);
-        //setIsJobLoading(false);
+      .then((data) => {
+        setJobs(data);
       })
-      .catch((err) => {
-        setIsJobError(true);
-        //setIsJobLoading(false);
+      .catch(() => {
+        setIsJobsError(true);
       })
       .finally(() => {
-        setIsJobLoading(false);
+        setIsJobsLoading(false);
       });
-
-    // calling the method
   }, []);
 
-  if (isJobLoading) {
+  if (isJobsLoading) {
     return (
       <section className="py-8">
         <h2>Available Jobs</h2>
-
         <div className="mt-4 flex flex-col gap-y-8">
-          <h1>Loading....</h1>
+          <p>Loading...</p>
         </div>
       </section>
     );
   }
 
-  if (isJobError) {
+  if (isJobsError) {
     return (
       <section className="py-8">
         <h2>Available Jobs</h2>
-
         <div className="mt-4 flex flex-col gap-y-8">
-          <h2>Error While Fetching Data..</h2>
+          <p>Error while fething data...</p>
         </div>
       </section>
     );
   }
+
   return (
     <section className="py-8">
       <h2>Available Jobs</h2>
-
       <div className="mt-4 flex flex-col gap-y-8">
         {jobs.map((job) => {
           return (
@@ -75,4 +62,5 @@ function JobSection() {
     </section>
   );
 }
+
 export default JobSection;

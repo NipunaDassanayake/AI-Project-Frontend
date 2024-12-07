@@ -1,4 +1,3 @@
-import Navigation from "@/components/shared/Navigation";
 import { Outlet } from "react-router-dom";
 
 function RootLayout() {
@@ -8,4 +7,5 @@ function RootLayout() {
     </main>
   );
 }
+
 export default RootLayout;
