@@ -11,12 +11,15 @@ import { Navigate, useParams } from "react-router-dom";
 const getJob = async (id) => {
   const token = await window.Clerk.session.getToken();
 
-  const res = await fetch(`http://localhost:8000/jobs/${id}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `http://ai-project-backend-production.up.railway.app/jobs/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   const job = await res.json();
   return job;
 };
@@ -24,14 +27,17 @@ const getJob = async (id) => {
 const createJob = async (jobApplication) => {
   const token = await window.Clerk.session.getToken();
 
-  await fetch(`http://localhost:8000/jobApplications`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(jobApplication),
-  });
+  await fetch(
+    `http://ai-project-backend-production.up.railway.app/jobApplications`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(jobApplication),
+    }
+  );
 };
 
 function JobPage() {
