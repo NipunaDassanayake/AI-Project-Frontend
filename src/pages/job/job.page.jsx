@@ -1,24 +1,35 @@
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Briefcase, MapPin } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
+import { Briefcase, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Navigate, useParams } from "react-router-dom";
 
 const getJob = async (id) => {
+  const token = await window.Clerk.session.getToken();
+
   const res = await fetch(`http://localhost:8000/jobs/${id}`, {
     method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   const job = await res.json();
   return job;
 };
 
 const createJob = async (jobApplication) => {
-  const res = await fetch("http://localhost:8000/jobApplications", {
+  const token = await window.Clerk.session.getToken();
+
+  await fetch(`http://localhost:8000/jobApplications`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(jobApplication),
   });
 };
@@ -27,13 +38,18 @@ function JobPage() {
   const [job, setJob] = useState(null);
   const params = useParams();
 
-  useEffect(() => {
-    getJob(params.id).then((data) => {
-      setJob(data);
-      console.log(data);
-    });
+  const { isLoaded, isSignedIn, user } = useUser();
 
-    // calling the method
+  useEffect(() => {
+    getJob(params.id)
+      .then((data) => {
+        setJob(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
   }, [params]);
 
   const [formData, setFormData] = useState({
@@ -48,11 +64,19 @@ function JobPage() {
     console.log(formData);
     createJob({
       fullName: formData.fullName,
-      answer: [formData.a1, formData.a2, formData.a3],
+      answers: [formData.a1, formData.a2, formData.a3],
       job: params.id,
-      userID: "123",
+      userId: user.id,
     });
   };
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isSignedIn) {
+    return <Navigate to="/sign-in" />;
+  }
 
   return (
     <div>
@@ -72,6 +96,7 @@ function JobPage() {
       <div className="mt-4 py-4">
         <p>{job?.description}</p>
       </div>
+
       <Separator />
 
       <form className="py-8 flex flex-col gap-y-8" onSubmit={handleSubmit}>
@@ -79,60 +104,68 @@ function JobPage() {
           <Label>Full Name</Label>
           <Input
             required
+            value={formData.fullName}
             onChange={(event) =>
               setFormData({ ...formData, fullName: event.target.value })
             }
-            value={formData.fullName}
-          />
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <Label>{job?.questions[0]}</Label>
-          <Textarea
-            required
-            onChange={(event) =>
-              setFormData({ ...formData, a1: event.target.value })
-            }
-            value={formData.a1}
-          />
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <Label>{job?.questions[1]}</Label>
-          <Textarea
-            required
-            onChange={(event) =>
-              setFormData({ ...formData, a2: event.target.value })
-            }
-            value={formData.a2}
-          />
-        </div>
-        <div className="flex flex-col gap-y-4">
-          <Label>{job?.questions[2]}</Label>
-          <Textarea
-            required
-            onChange={(event) =>
-              setFormData({ ...formData, a3: event.target.value })
-            }
-            value={formData.a3}
           />
         </div>
 
-        <div className="flex  gap-x-4 items-center">
-          <Button type="submit" className="text-black">
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job?.questions[0]}</Label>
+            <Textarea
+              required
+              value={formData.a1}
+              onChange={(event) =>
+                setFormData({ ...formData, a1: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job?.questions[1]}</Label>
+            <Textarea
+              required
+              value={formData.a2}
+              onChange={(event) =>
+                setFormData({ ...formData, a2: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job?.questions[2]}</Label>
+            <Textarea
+              required
+              value={formData.a3}
+              onChange={(event) =>
+                setFormData({ ...formData, a3: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-x-4 items-center">
+          <Button type="submit" className="bg-card text-card-foreground w-fit">
             Submit
           </Button>
-
           <Button
             type="button"
-            className="text-black"
             onClick={() =>
               setFormData({
-                ///setting form data to clear when i click clear button
                 fullName: "",
                 a1: "",
                 a2: "",
                 a3: "",
               })
             }
+            className="w-fit"
+            variant="outline"
           >
             Clear
           </Button>
@@ -141,4 +174,5 @@ function JobPage() {
     </div>
   );
 }
+
 export default JobPage;
