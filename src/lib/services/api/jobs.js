@@ -1,6 +1,6 @@
 export const getJobs = async () => {
   const res = await fetch(
-    "http://endearing-nurturing-production.up.railway.app/jobs",
+    "https://endearing-nurturing-production.up.railway.app/jobs",
     {
       method: "GET",
     }
@@ -13,7 +13,7 @@ export const getJobById = async (id) => {
   const token = await window.Clerk.session.getToken();
 
   const res = await fetch(
-    `http://endearing-nurturing-production.up.railway.app/jobs/${id}`,
+    `https://endearing-nurturing-production.up.railway.app/jobs/${id}`,
     {
       method: "GET",
       headers: {
@@ -35,7 +35,7 @@ export const createJob = async ({
 }) => {
   const token = await window.Clerk.session.getToken();
 
-  await fetch("http://endearing-nurturing-production.up.railway.app/jobs", {
+  await fetch("https://endearing-nurturing-production.up.railway.app/jobs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
