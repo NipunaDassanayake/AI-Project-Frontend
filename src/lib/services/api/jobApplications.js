@@ -2,7 +2,7 @@ export const getJobApllicationsForJob = async (id) => {
   const token = await window.Clerk.session.getToken();
 
   const res = await fetch(
-    `https://endearing-nurturing-production.up.railway.app/jobApplications?jobId=${id}`,
+    `https://ai-project-backend-production.up.railway.app/jobApplications?jobId=${id}`,
     {
       method: "GET",
       headers: {
@@ -18,7 +18,7 @@ export const getJobApplicationById = async (id) => {
   const token = await window.Clerk.session.getToken();
 
   const res = await fetch(
-    `https://endearing-nurturing-production.up.railway.app/jobApplications/${id}`,
+    `https://ai-project-backend-production.up.railway.app/jobApplications/${id}`,
     {
       method: "GET",
       headers: {
@@ -39,7 +39,7 @@ export const createJobApplication = async ({
   const token = await window.Clerk.session.getToken();
 
   await fetch(
-    "https://endearing-nurturing-production.up.railway.app/jobApplications",
+    "https://ai-project-backend-production.up.railway.app/jobApplications",
     {
       method: "POST",
       headers: {
